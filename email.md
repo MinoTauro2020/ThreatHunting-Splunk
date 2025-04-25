@@ -25,3 +25,4 @@
 | "index=o365 sourcetype=o365_management_activity Operation=AttachmentDownloaded *.exe *.zip \| table _time user_id AttachmentName" | Identifica descargas de adjuntos .exe o .zip desde O365 Exchange. |
 | "index=main sourcetype=stream:smtp *.exe *.zip \| rex field=body \"From: <(?<sender>[^>]+)>\" \| table _time sender filename" | Asocia adjuntos .exe o .zip con el remitente del correo electrónico. |
 | "index=main sourcetype=suricata email attachment *.exe *.zip dest_ip=192.168.250.* \| table _time src_ip dest_ip fileinfo.filename" | Busca adjuntos .exe o .zip enviados a IPs locales (e.g., red interna). |
+
