@@ -26,3 +26,22 @@
 | "index=main sourcetype=stream:smtp *.exe *.zip \| rex field=body \"From: <(?<sender>[^>]+)>\" \| table _time sender filename" | Asocia adjuntos .exe o .zip con el remitente del correo electrónico. |
 | "index=main sourcetype=suricata email attachment *.exe *.zip dest_ip=192.168.250.* \| table _time src_ip dest_ip fileinfo.filename" | Busca adjuntos .exe o .zip enviados a IPs locales (e.g., red interna). |
 
+## Tabla de Consultas SPL para Investigar Correos Electrónicos con Enlaces, Adjuntos Inusuales, Redirecciones y Remitentes Desconocidos
+| **Consulta**                                                                 | **Propósito**                                                                 |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| "index=main sourcetype=stream:smtp *.eml url=* \| rex field=body \"(?<url>https?://[^\s]+)\" \| table _time src_ip dest_ip url" | Extrae URLs de correos electrónicos para detectar enlaces sospechosos. |
+| "index=main sourcetype=suricata email url=* \| table _time src_ip dest_ip http.url" | Identifica URLs en correos electrónicos capturadas por Suricata, posibles phishing. |
+| "index=main sourcetype=stream:smtp *.eml *.exe *.zip *.js *.vbs \| rex field=body \"filename=\\\"(?<filename>[^\\\"]+)\\\".*(exe|zip|js|vbs)\" \| table _time filename" | Detecta adjuntos inusuales (.exe, .zip, .js, .vbs) en correos electrónicos. |
+| "index=main sourcetype=suricata email attachment *.exe *.zip *.js *.vbs \| table _time src_ip fileinfo.filename" | Busca adjuntos inusuales en correos electrónicos a través de alertas Suricata. |
+| "index=main sourcetype=WinEventLog:Microsoft-Windows-Sysmon/Operational EventCode=11 *.exe *.zip *.js *.vbs \| table _time FileName ProcessName" | Identifica archivos inusuales creados en el sistema, posiblemente de correos. |
+| "index=o365 sourcetype=o365_management_activity Workload=Exchange Operation=AttachmentDownloaded *.exe *.zip *.js *.vbs \| table _time user_id AttachmentName" | Detecta descargas de adjuntos inusuales desde O365 Exchange. |
+| "index=main sourcetype=stream:smtp *.eml \"Content-Type: text/html\" \| rex field=body \"<script[^>]*>(?<script_content>[^<]+)</script>\" \| table _time script_content" | Extrae scripts HTML incrustados en correos electrónicos, posibles malware. |
+| "index=main sourcetype=stream:dns query{}=\"*.win\" OR query{}=\"*.xyz\" \| stats count by query{} src_ip" | Busca dominios sospechosos en consultas DNS relacionadas con enlaces de correos. |
+| "index=main sourcetype=stream:smtp *.eml \| rex field=body \"From: <(?<sender>[^>]+)>\" \| search NOT sender IN (\"*@yourdomain.com\") \| table _time sender" | Identifica correos de remitentes desconocidos (no de tu dominio). |
+| "index=main sourcetype=suricata http http_status=301 OR http_status=302 \| table _time src_ip http.url http.redirect" | Detecta URLs con redirecciones en correos electrónicos capturadas por Suricata. |
+| "index=o365 sourcetype=o365_management_activity Operation=Set-Mailbox Forwarding* \| table _time user_id ForwardingSmtpAddress" | Identifica reglas de reenvío de correo creadas para exfiltrar emails. |
+| "index=main sourcetype=stream:smtp *.eml \| rex field=body \"<iframe[^>]+src=\\\"(?<iframe_url>[^\\\"]+)\\\"[^>]*>\" \| table _time iframe_url" | Extrae URLs de iframes HTML incrustados en correos, posibles redirecciones maliciosas. |
+| "index=main sourcetype=azure:ad:signinlogs ResultType!=0 \| stats count by UserPrincipalName SrcIpAddress \| where count > 5 \| table UserPrincipalName SrcIpAddress count" | Detecta múltiples intentos fallidos de inicio de sesión, posible password spraying. |
+| "index=main sourcetype=stream:smtp *.eml \| stats count by src_ip \| where count > 100 \| table src_ip count" | Identifica envíos masivos de correos desde una IP, posible campaña de phishing. |
+| "index=o365 sourcetype=o365_management_activity Operation=AdminMailAccess \| stats count by UserId MailboxId \| where count > 10 \| table UserId MailboxId count" | Detecta accesos administrativos frecuentes a buzones, posible abuso de privilegios. |
+
