@@ -17,3 +17,8 @@
 | "index=botsv2 sourcetype=\"xmlwineventlog:microsoft-windows-sysmon/operational\" dest=45.77.65.211* \| stats values(dest_port) as dest_port values(host) as host values(src_ip) as src_ip values(src_port) as src_port by process,dest,user" | Analiza eventos de conexión de red de PowerShell hacia 45.77.65.211, incluyendo puertos y usuarios. |
 | "index=botsv2 sourcetype=\"xmlwineventlog:microsoft-windows-sysmon/operational\" dest_ip=45.77.65.211* user=FROTHLY\\service3 \| timechart count by src_ip" | Visualiza la actividad de red del usuario service3 hacia 45.77.65.211 entre 8/23 y 8/26. |
 | "index=\"botsv2\" sourcetype=\"xmlwineventlog:microsoft-windows-sysmon/operational\" user=FROTHLY\\service3 \| stats values(CommandLine) by Computer,process,ParentImage" | Investiga comandos ejecutados por el usuario service3, buscando actividad maliciosa de PowerShell. |
+
+## Tabla de Consultas SPL para Hunt for Adversary Infrastructure
+| **Consulta**                                                                 | **Propósito**                                                                 |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| "index=botsv2 sourcetype=stream:tcp dest_ip=45.77.65.211 src_ip=10.0.2.107 \| stats count by ssl_cert_sha256" | Extrae el hash SHA256 del certificado SSL usado en comunicaciones con 45.77.65.211. |
