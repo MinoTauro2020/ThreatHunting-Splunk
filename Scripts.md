@@ -1,0 +1,5 @@
+## Tabla de Consultas SPL para Hunt for Logon Scripts
+| **Consulta**                                                                 | **Propósito**                                                                 |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| "index=winsysmon ((ParentImage=\"*\\userinit.exe\" NOT (Image=\"*\\explorer.exe\")) NOT ((CommandLine=\"*\\netlogon.bat\" OR CommandLine=\"*\\UsrLogon.cmd\"))) \| stats values(cmdline) dc(Computer) AS hosts count by ParentImage Image" | Detecta scripts de inicio de sesión ejecutados por userinit.exe, excluyendo procesos legítimos como explorer.exe. |
+| "index=winsysmon ((EventCode=\"11\" OR EventCode=\"12\" OR EventCode=\"13\" OR EventCode=\"14\") AND TargetObject=\"*UserInitMprLogonScript*\") \| table Computer, EventCode, signature, TargetObject, Details" | Busca actividad en el registro (Sysmon IDs 11, 12, 13, 14) relacionada con la clave UserInitMprLogonScript. |
