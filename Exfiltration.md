@@ -15,3 +15,13 @@
 | "index=botsv2 sourcetype=wineventlog (singlefile.dll OR winsys32.dll) \| stats count by host" | Analiza eventos de wineventlog para las DLLs sospechosas por host. |
 | "index=botsv2 sourcetype!=stream:ftp (dns.py OR nc.exe OR psexec.exe OR python-2.7.6.amd64.msi OR wget64.exe OR winsys64.dll OR *.hwp) \| stats count by host" | Busca otros archivos descargados (dns.py, nc.exe, etc.) en hosts específicos. |
 | "index=botsv2 sourcetype!=stream:ftp (dns.py OR nc.exe OR psexec.exe OR python-2.7.6.amd64.msi OR wget64.exe OR winsys64.dll OR *.hwp) \| reverse \| search host=\"venus\"" | Investiga eventos relacionados con archivos descargados en el host Venus. |
+
+## Tabla de Consultas SPL para Hunt for DNS Exfiltration
+| **Consulta**                                                                 | **Propósito**                                                                 |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| "index=botsv2 sourcetype=stream:dns 160.153.91.7 \| stats count by src_ip" | Identifica sistemas que se comunicaron con 160.153.91.7 vía DNS, buscando exfiltración. |
+| "index=botsv2 sourcetype=stream:dns 160.153.91.7 src_ip=10.0.2.107" | Investiga tráfico DNS desde 10.0.2.107 hacia 160.153.91.7 para detectar dominios sospechosos. |
+| "index=botsv2 sourcetype=stream:dns hildegardsfarm.com \| stats count by dest_ip \| sort - count" | Analiza eventos DNS para el dominio sospechoso hildegardsfarm.com. |
+| "index=botsv2 sourcetype=stream:dns hildegardsfarm.com \"query{}\"=\"*\" \| table _time query{} src_ip dest_ip" | Examina consultas DNS al dominio hildegardsfarm.com para buscar exfiltración. |
+| "index=botsv2 sourcetype=stream:dns hildegardsfarm.com \"query{}\"=\"*\" query *.hildegardsfarm.com \| eval query{}=mvdedup(query) \| eval list=\"mozilla\" \| `ut_parse_extended(query{},list)` \| `ut_shannon(ut_subdomain)` \| table src_ip dest_ip query{} ut_subdomain ut_shannon" | Usa URL Toolbox para calcular la entropía de subdominios y detectar posibles DGAs. |
+| "index=botsv2 sourcetype=stream:dns hildegardsfarm.com \"query{}\"=\"*\" query *.hildegardsfarm.com \| eval query{}=mvdedup(query) \| eval list=\"mozilla\" \| `ut_parse_extended(query{},list)` \| `ut_shannon(ut_subdomain)` \| eval sublen = length(ut_subdomain) \| table ut_domain ut_subdomain ut_shannon sublen \| stats count avg(ut_shannon) as avg_entropy avg(sublen) as avg_sublen stdev(sublen) as stdev_sublen by ut_domain" | Analiza métricas de entropía y longitud de subdominios para confirmar exfiltración DNS. |
