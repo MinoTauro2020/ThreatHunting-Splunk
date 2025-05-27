@@ -114,6 +114,23 @@ index=dc_logs sourcetype=WinEventLog:Security EventCode=4768 Pre_Authentication_
 
 ---
 
+# AS-REP Roasting: Tres formas de ataque y su detección
+
+
+1. **Con un usuario autenticado del dominio**
+   - El atacante tiene acceso a una cuenta válida y la usa para solicitar hashes a cuentas vulnerables.
+   - **Detección:** Se observa actividad AS-REQ anómala desde un usuario legítimo, pero solicitando hashes de otras cuentas.
+
+2. **Con una lista de usuarios válidos del dominio**
+   - El atacante cuenta con una lista de nombres de usuario (por ejemplo, obtenida por OSINT, enumeração, dumps, etc).
+   - Lanza solicitudes en masa para ver cuáles tienen preautenticación deshabilitada.
+   - **Detección:** Se detecta una misma IP solicitando hashes para muchos usuarios diferentes en poco tiempo.
+
+3. **Sabiendo directamente el usuario vulnerable**
+   - El atacante conoce exactamente el nombre de la cuenta vulnerable (con preautenticación deshabilitada).
+   - Ataca solo a esa cuenta de forma puntual y sigilosa.
+   - **Detección:** Solicitud aislada de AS-REQ sin preautenticación, desde una IP no habitual o externa.
+
 ## 🛠️ Buenas prácticas
 
 - **Empieza siempre por el evento 4768 con Pre_Authentication_Type=0.**
