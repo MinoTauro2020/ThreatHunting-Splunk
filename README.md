@@ -4,6 +4,13 @@
 
 Welcome to **ThreatHunting-Splunk**, a public repository dedicated to providing Splunk-based threat hunting resources and guides. This project, maintained by **MinoTauro2020**, focuses on creating detailed Markdown files with Splunk Search Processing Language (SPL) queries to help security analysts detect and investigate various cyber threats, such as brute force attacks, Kerberoasting, credential dumping, persistence, and more.
 
+**🆕 Latest Updates**: Added 6 new advanced threat hunting investigations focusing on sophisticated attack techniques like Golden Ticket detection, LOLBins abuse, Shadow Credentials, NTLM Relay, Process Hollowing, and Registry Persistence. These investigations feature:
+- **Precise, non-generic SPL queries** tailored for specific attack patterns
+- **Advanced correlation techniques** across multiple data sources
+- **Detailed detection rationale** with clear indicators of compromise
+- **Comprehensive coverage** from basic detection to advanced hunting
+- **Real-world applicability** based on current threat landscape
+
 Whether you're hunting for malicious activity in Active Directory, analyzing PowerShell usage, or investigating lateral movement, this repository offers structured guides to enhance your threat hunting capabilities using Splunk.
 
 ## Repository Owner
@@ -13,7 +20,20 @@ Whether you're hunting for malicious activity in Active Directory, analyzing Pow
 
 ## Files in this Repository
 
-Below is a list of all Markdown files in the repository, including their last update details as of **May 20, 2025, 10:02 AM CEST**.
+Below is a list of all Markdown files in the repository, including their last update details.
+
+### 🆕 **Advanced Threat Hunting Investigations (Latest)**
+
+| **File Name**                                      | **Description**                          | **Status**            |
+|----------------------------------------------------|------------------------------------------|-----------------------|
+| [Golden-Ticket-Detection.md](Golden-Ticket-Detection.md) | Advanced detection of Golden Ticket attacks and Kerberos TGT forgery | ✅ New                |
+| [LOLBins-Detection.md](LOLBins-Detection.md)      | Living Off The Land Binaries abuse detection | ✅ New                |
+| [Shadow-Credentials-Attack.md](Shadow-Credentials-Attack.md) | ADCS Certificate abuse and Shadow Credentials detection | ✅ New                |
+| [NTLM-Relay-Attacks.md](NTLM-Relay-Attacks.md)   | Comprehensive NTLM relay attack detection | ✅ New                |
+| [Process-Hollowing-Detection.md](Process-Hollowing-Detection.md) | Process injection and hollowing technique detection | ✅ New                |
+| [Registry-Persistence-Detection.md](Registry-Persistence-Detection.md) | Registry-based persistence mechanism detection | ✅ New                |
+
+### 📚 **Existing Threat Hunting Investigations**
 
 | **File Name**                                      | **Last Update Description**              | **Time Since Update** |
 |----------------------------------------------------|------------------------------------------|-----------------------|
@@ -31,7 +51,6 @@ Below is a list of all Markdown files in the repository, including their last up
 | [Initial-Access-BruteForce.md](Initial-Access-BruteForce.md) | Updated Initial-Access-BruteForce.md | Yesterday             |
 | [Initial-Access-w3wp-IIS.md](Initial-Access-w3wp-IIS.md) | Renamed from Initial-Access-w3wpIIS.md | Yesterday             |
 | [Basics.md](Basics.md)                            | Renamed from table.md to Basics.md      | Last month            |
-| [basic.md](basic.md)                              | Created basic.md                        | Last month            |
 | [Initial-Access-Email.md](Initial-Access-Email.md)| Updated Initial-Access-Email.md         | Last month            |
 | [README.md](README.md)                            | Initial commit                          | 2 months ago          |
 
@@ -45,6 +64,15 @@ To use these threat hunting guides:
 
 ## Topics Covered
 
+### 🔥 **Advanced Threat Hunting (New)**
+- **Golden Ticket Detection**: Advanced detection of Kerberos TGT forgery and timeline analysis.
+- **Living Off The Land Binaries (LOLBins)**: Detect abuse of legitimate Windows binaries for malicious purposes.
+- **Shadow Credentials Attack**: Hunt for ADCS certificate abuse and msDS-KeyCredentialLink manipulation.
+- **NTLM Relay Attacks**: Comprehensive detection of credential relay and cross-protocol attacks.
+- **Process Hollowing Detection**: Identify process injection, hollowing, and memory manipulation techniques.
+- **Registry Persistence Mechanisms**: Detect sophisticated registry-based persistence across multiple attack vectors.
+
+### 📚 **Core Threat Hunting**
 - **Brute Force Attacks**: Detect brute force and password spraying in Active Directory.
 - **Kerberoasting**: Identify Kerberoasting attempts using Splunk queries.
 - **Credential Dumping**: Hunt for credential dumping activities like LSASS memory dumps.
