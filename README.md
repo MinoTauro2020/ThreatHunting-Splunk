@@ -18,6 +18,19 @@ Whether you're hunting for malicious activity in Active Directory, analyzing Pow
 - **Owner**: MinoTauro2020  
 - **Profile**: [MinoTauro2020](https://github.com/MinoTauro2020)
 
+## 🎯 **eCTHPv2 Threat Hunting Exam Resources (New!)**
+
+Complete exam preparation materials for the eCTHPv2 (eLearnSecurity Certified Threat Hunting Professional v2) certification:
+
+| **File Name** | **Description** | **Points** |
+|---------------|-----------------|------------|
+| [eCTHPv2-Exam-Itinerary.md](eCTHPv2-Exam-Itinerary.md) | Complete exam itinerary covering all 3 hunts with detailed methodology | Master Guide |
+| [Analisis-MAMABEAR.md](Analisis-MAMABEAR.md) | Enhanced MAMABEAR analysis with Splunk queries for Hunt 1 | 40 Points |
+| [DotNet-Malware-Memory-Analysis.md](DotNet-Malware-Memory-Analysis.md) | Comprehensive Volatility guide for .NET malware hunting (Hunt 2) | 30 Points |
+| [ELK-TTP-Hunting-Guide.md](ELK-TTP-Hunting-Guide.md) | ELK-based hunting for specific TTPs with MITRE ATT&CK techniques (Hunt 3) | 30 Points |
+
+**Total Coverage**: 100+ points with detailed technical guidance for exam success.
+
 ## Files in this Repository
 
 Below is a list of all Markdown files in the repository, including their last update details.
@@ -65,12 +78,15 @@ To use these threat hunting guides:
 ## Topics Covered
 
 ### 🔥 **Advanced Threat Hunting (New)**
+- **eCTHPv2 Exam Suite**: Complete certification exam preparation with 100+ point coverage
 - **Golden Ticket Detection**: Advanced detection of Kerberos TGT forgery and timeline analysis.
 - **Living Off The Land Binaries (LOLBins)**: Detect abuse of legitimate Windows binaries for malicious purposes.
 - **Shadow Credentials Attack**: Hunt for ADCS certificate abuse and msDS-KeyCredentialLink manipulation.
 - **NTLM Relay Attacks**: Comprehensive detection of credential relay and cross-protocol attacks.
 - **Process Hollowing Detection**: Identify process injection, hollowing, and memory manipulation techniques.
 - **Registry Persistence Mechanisms**: Detect sophisticated registry-based persistence across multiple attack vectors.
+- **.NET Malware Memory Analysis**: Volatility-based hunting for .NET malware in memory dumps.
+- **ELK-based TTP Hunting**: Specific MITRE ATT&CK technique detection using Elasticsearch and Kibana.
 
 ### 📚 **Core Threat Hunting**
 - **Brute Force Attacks**: Detect brute force and password spraying in Active Directory.
